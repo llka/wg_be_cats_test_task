@@ -39,12 +39,11 @@ public class ConnectionPool {
             DriverManager.registerDriver((Driver) Class.forName(dbInitializer.DRIVER).newInstance());
         } catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             logger.fatal("Registration database driver error" + e);
-            throw new BackendException("Error while initializing Database Driver " + e);
+            throw new BackendException("Error while initializing Mysql Driver " + e);
         }
         for (int i = 0; i < dbInitializer.POOL_SIZE; i++) {
-            try (Connection connection = DriverManager.getConnection(dbInitializer.URL,
-                    dbInitializer.LOGIN,
-                    dbInitializer.PASSWORD)) {
+            try {
+                Connection connection = DriverManager.getConnection(dbInitializer.URL, dbInitializer.LOGIN, dbInitializer.PASSWORD);
                 freeConnections.put(new ProxyConnection(connection));
                 ++connectionAmount;
             } catch (SQLException | InterruptedException e) {
@@ -62,15 +61,15 @@ public class ConnectionPool {
         /* check if all connections were initialized */
         if (connectionAmount < dbInitializer.POOL_SIZE) {
             logger.error("Can't initialize expected amount of connections.");
-
+            try {
                 while (connectionAmount < dbInitializer.POOL_SIZE) {
-                    try( Connection connection = DriverManager.getConnection(dbInitializer.URL, dbInitializer.LOGIN, dbInitializer.PASSWORD)) {
-                        freeConnections.put(new ProxyConnection(connection));
-                        ++connectionAmount;
-                    }catch (SQLException | InterruptedException e) {
-                        logger.error("Can't get connection " + e);
-                    }
+                    Connection connection = DriverManager.getConnection(dbInitializer.URL, dbInitializer.LOGIN, dbInitializer.PASSWORD);
+                    freeConnections.put(new ProxyConnection(connection));
+                    ++connectionAmount;
                 }
+            } catch (SQLException | InterruptedException e) {
+                logger.error("Can't get connection " + e);
+            }
             logger.info("init " + connectionAmount + " connections where taken additionally.");
         }
     }
@@ -98,6 +97,7 @@ public class ConnectionPool {
                 takenConnections.put(connection);
             } catch (InterruptedException e) {
                 logger.error("Can't take connection from available connections." + e);
+                Thread.currentThread().interrupt();
             }
         }
         return connection;
@@ -110,6 +110,7 @@ public class ConnectionPool {
                 freeConnections.put(connection);
             } catch (InterruptedException e) {
                 logger.error("Can't free connection " + e);
+                Thread.currentThread().interrupt();
             }
         }
     }
