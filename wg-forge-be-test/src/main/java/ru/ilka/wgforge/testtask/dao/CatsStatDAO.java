@@ -37,10 +37,10 @@ public class CatsStatDAO {
             preparedStatement.setDouble(4, catsStatistics.getWhiskersLengthStat().getMean());
             preparedStatement.setDouble(5, catsStatistics.getWhiskersLengthStat().getMedian());
             preparedStatement.setArray(6, connection.createArrayOf("integer", catsStatistics.getWhiskersLengthStat().getMode()));
+            preparedStatement.execute();
             logger.info("Saved cats statistics!");
             return catsStatistics;
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new BackendException("Cannot save cats statistics. " + catsStatistics + ". " + e);
         }
     }

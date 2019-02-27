@@ -5,25 +5,18 @@ import ru.ilka.wgforge.testtask.entity.CatsStatistics;
 import ru.ilka.wgforge.testtask.entity.Statistics;
 
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class StatisticsService {
     public CatsStatistics calculateCatsStatistics(List<Cat> cats) {
         CatsStatistics catsStatistics = new CatsStatistics();
-        Statistics tailLengthStat = new Statistics();
         List<Integer> tailLengthList = cats.stream().map(Cat::getTailLength).collect(Collectors.toList());
-        tailLengthStat.setMean(findMean(tailLengthList));
-        tailLengthStat.setMedian(findMedian(tailLengthList));
-        tailLengthStat.setMode(findMode(tailLengthList));
-        catsStatistics.setTailLengthStat(tailLengthStat);
+        prepareStatistics(catsStatistics::setTailLengthStat, tailLengthList);
 
-        Statistics whiskersLengthStat = new Statistics();
         List<Integer> whiskersLengthList = cats.stream().map(Cat::getWhiskersLength).collect(Collectors.toList());
-        whiskersLengthStat.setMean(findMean(whiskersLengthList));
-        whiskersLengthStat.setMedian(findMedian(whiskersLengthList));
-        whiskersLengthStat.setMode(findMode(whiskersLengthList));
-        catsStatistics.setWhiskersLengthStat(whiskersLengthStat);
+        prepareStatistics(catsStatistics::setWhiskersLengthStat, whiskersLengthList);
         return catsStatistics;
     }
 
@@ -53,6 +46,14 @@ public class StatisticsService {
         List<Integer> mode = new ArrayList<>();
         occurrencesMap.entrySet().stream().filter(entry -> entry.getValue() == max).forEach(entry -> mode.add(entry.getKey()));
         return mode;
+    }
+
+    private void prepareStatistics(Consumer<Statistics> statisticsSetter, List<Integer> values) {
+        Statistics statistics = new Statistics();
+        statistics.setMean(findMean(values));
+        statistics.setMedian(findMedian(values));
+        statistics.setMode(values);
+        statisticsSetter.accept(statistics);
     }
 
 }

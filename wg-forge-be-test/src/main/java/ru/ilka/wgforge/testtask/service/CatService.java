@@ -3,6 +3,7 @@ package ru.ilka.wgforge.testtask.service;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.ilka.wgforge.testtask.dao.CatDAO;
+import ru.ilka.wgforge.testtask.dao.CatsColorsStatDAO;
 import ru.ilka.wgforge.testtask.dao.CatsStatDAO;
 import ru.ilka.wgforge.testtask.entity.Cat;
 import ru.ilka.wgforge.testtask.entity.CatsStatistics;
@@ -14,14 +15,16 @@ public class CatService {
 
     private CatDAO catDAO;
     private CatsStatDAO catsStatDAO;
+    private CatsColorsStatDAO catsColorsStatDAO;
 
     public CatService() {
         catDAO = new CatDAO();
         catsStatDAO = new CatsStatDAO();
+        catsColorsStatDAO = new CatsColorsStatDAO();
     }
 
     public void generateCatsColorStatistics() {
-        catDAO.generateCatsStatistics();
+        catsColorsStatDAO.generateCatsStatistics();
     }
 
     public List<Cat> getAll() {
@@ -33,7 +36,7 @@ public class CatService {
     }
 
     public void clearCatsColorStatistics() {
-        catDAO.clearCatsColorStatistics();
+        catsColorsStatDAO.clearCatsColorStatistics();
     }
 
 }
