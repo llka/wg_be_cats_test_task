@@ -52,7 +52,7 @@ public class StatisticsService {
         Statistics statistics = new Statistics();
         statistics.setMean(findMean(values));
         statistics.setMedian(findMedian(values));
-        statistics.setMode(values);
+        statistics.setMode(findMode(values));
         statisticsSetter.accept(statistics);
     }
 
