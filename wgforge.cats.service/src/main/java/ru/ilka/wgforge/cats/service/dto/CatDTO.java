@@ -1,11 +1,21 @@
 package ru.ilka.wgforge.cats.service.dto;
 
+import ru.ilka.wgforge.cats.service.validation.annotation.ValidCatColor;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.Objects;
 
 public class CatDTO {
+    @NotBlank(message = "Name must be not blank!")
     private String name;
+    @NotNull(message = "Color must be not null!")
+    @ValidCatColor
     private String color;
+    @PositiveOrZero(message = "Length cannot have negative value!")
     private int tailLength;
+    @PositiveOrZero(message = "Length cannot have negative value!")
     private int whiskersLength;
 
     public String getName() {

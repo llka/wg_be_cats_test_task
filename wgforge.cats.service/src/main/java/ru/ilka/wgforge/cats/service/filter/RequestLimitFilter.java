@@ -19,7 +19,7 @@ public class RequestLimitFilter implements Filter {
         if (requestCountService == null) {
             injectRequestCountService(servletRequest.getServletContext());
         }
-        requestCountService.handleNewRequest();
+        requestCountService.checkForTooManyRequests();
         filterChain.doFilter(servletRequest, servletResponse);
     }
 

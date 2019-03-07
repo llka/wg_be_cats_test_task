@@ -54,4 +54,16 @@ public class CatsService {
         return cats;
     }
 
+    public Cat create(Cat cat, boolean updateIfExists) {
+        if (catsRepository.findById(cat.getName()).isPresent()) {
+            if (updateIfExists) {
+                return catsRepository.save(cat);
+            } else {
+                throw new RestException("Cat with name: " + cat.getName() + " already exists! " +
+                        "Use updateIfExists param to update existing entity with new values.", HttpStatus.BAD_REQUEST);
+            }
+        } else {
+            return catsRepository.save(cat);
+        }
+    }
 }

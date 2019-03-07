@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicLong;
 @Service
 public class RequestCountService {
     private static Logger logger = LogManager.getLogger(RequestCountService.class);
-    private static final int MINUTE = 3600;
+    private static final int MINUTE_IN_MILLIS = 60000;
 
     @Value("${limit.minute}")
     private long limitPerMinute;
@@ -32,19 +32,14 @@ public class RequestCountService {
         countStartTimestamp = new AtomicLong(currentTimestamp());
     }
 
-    public void handleNewRequest() {
+    public void checkForTooManyRequests() {
         long now = currentTimestamp();
-
-        logger.debug("time difference = " + (now - countStartTimestamp.get()));
-
-        if (now - countStartTimestamp.get() > MINUTE) {
+        if (now - countStartTimestamp.get() > MINUTE_IN_MILLIS) {
             count = new AtomicLong(0);
             countStartTimestamp = new AtomicLong(now);
         }
 
-        logger.debug("count before increment " + count);
         count.incrementAndGet();
-        logger.debug("count after increment " + count);
 
         if (count.get() > limitPerMinute) {
             throw new RestException("Too Many Requests!", HttpStatus.TOO_MANY_REQUESTS);

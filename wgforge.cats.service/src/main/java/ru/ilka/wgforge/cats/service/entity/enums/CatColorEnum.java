@@ -1,6 +1,8 @@
 package ru.ilka.wgforge.cats.service.entity.enums;
 
-public enum CatColorEnum {
+import java.io.Serializable;
+
+public enum CatColorEnum implements Serializable {
     RED("red"),
     RED_BLACK_WHITE("red & black & white"),
     WHITE("white"),

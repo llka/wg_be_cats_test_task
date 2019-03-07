@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 
 public enum CatSortingAttributeEnum {
     NAME("name", Cat::getName),
-    COLOR("color", Cat::getColor),
+    COLOR("color", cat -> cat.getColor().getName()),
     TAIL_LENGTH("tail_length", cat -> String.valueOf(cat.getTailLength())),
     WHISKERS_LENGTH("whiskers_length", cat -> String.valueOf(cat.getWhiskersLength()));
 

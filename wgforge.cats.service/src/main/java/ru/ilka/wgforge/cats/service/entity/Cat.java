@@ -1,7 +1,9 @@
 package ru.ilka.wgforge.cats.service.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 import ru.ilka.wgforge.cats.service.entity.enums.CatColorEnum;
+import ru.ilka.wgforge.cats.service.util.CatColorEnumConverter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -12,6 +14,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "cats",
         indexes = {@Index(name = "INDEX_NAME_UNIQUE", unique = true, columnList = "name")})
+@TypeDef(name = "CatColorEnumConverter", typeClass = CatColorEnumConverter.class)
 public class Cat implements DatabaseEntity {
     @Id
     @NotBlank(message = "Name must be not blank!")
@@ -19,7 +22,8 @@ public class Cat implements DatabaseEntity {
     private String name;
     @Column(name = "color")
     @NotNull(message = "Color must be not null!")
-    private String color;
+    @Type(type = "CatColorEnumConverter")
+    private CatColorEnum color;
     @Column(name = "tail_length")
     @PositiveOrZero(message = "Length cannot have negative value!")
     private int tailLength;
@@ -38,21 +42,12 @@ public class Cat implements DatabaseEntity {
         this.name = name;
     }
 
-    @JsonIgnore
-    public CatColorEnum getColorAsEnum() {
-        return CatColorEnum.getByName(color);
-    }
-
-    public String getColor() {
+    public CatColorEnum getColor() {
         return color;
     }
 
-    public void setColor(String color) {
-        this.color = color;
-    }
-
     public void setColor(CatColorEnum color) {
-        this.color = color.getName();
+        this.color = color;
     }
 
     public int getTailLength() {
