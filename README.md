@@ -7,6 +7,6 @@
 
 Main class - [ru.ilka.wgforge.testtask.Main](https://github.com/llka/wg_be_cats_test_task/blob/master/wg-forge-be-test/src/main/java/ru/ilka/wgforge/testtask/Main.java)
 
-Параметры базы данных: [wg-forge-be-test/src/main/resources/properties/database.properties] (https://github.com/llka/wg_be_cats_test_task/blob/master/wg-forge-be-test/src/main/resources/properties/database.properties)
+Параметры базы данных: [wg-forge-be-test/src/main/resources/properties/database.properties](https://github.com/llka/wg_be_cats_test_task/blob/master/wg-forge-be-test/src/main/resources/properties/database.properties)
 
 
