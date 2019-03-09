@@ -41,9 +41,6 @@ public class RequestsLimitTest {
 
     @Before
     public void setup() {
-        System.out.println("-------------------");
-        System.out.println(config.getRequestsLimitPerMinute());
-
         mvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .addFilters(new RequestLimitFilter())
