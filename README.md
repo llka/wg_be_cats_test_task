@@ -24,4 +24,9 @@ Spring Boot REST Api
 
 Параметры сервера и базы данных: [wgforge.cats.service/src/main/resources/application.properties](https://github.com/llka/wg_be_cats_test_task/blob/master/wgforge.cats.service/src/main/resources/application.properties)
 
-
+### Как запустить?
+  - you must have Maven and Java installed on your machine.
+  - check application.properties 
+  - run your docker container with cats database (or start database)
+  - run in terminal: **mvn clean install**
+  - run in terminal: **mvn spring-boot:run**
