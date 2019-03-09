@@ -9,4 +9,12 @@ Main class - [ru.ilka.wgforge.testtask.Main](https://github.com/llka/wg_be_cats_
 
 Параметры базы данных: [wg-forge-be-test/src/main/resources/properties/database.properties](https://github.com/llka/wg_be_cats_test_task/blob/master/wg-forge-be-test/src/main/resources/properties/database.properties)
 
+## 3-е - 6-е задание (сервис)
+
+Решение -  https://github.com/llka/wg_be_cats_test_task/tree/master/wgforge.cats.service
+
+Spring Boot REST Api
+
+Параметры сервера и базы данных: [wgforge.cats.service/src/main/resources/application.properties](https://github.com/llka/wg_be_cats_test_task/blob/master/wgforge.cats.service/src/main/resources/application.properties)
+
 
