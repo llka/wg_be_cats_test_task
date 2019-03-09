@@ -21,6 +21,9 @@ public class StatisticsService {
     }
 
     public double findMean(List<Integer> values) {
+        if (checkForEmptyList(values)) {
+            return 0.0;
+        }
         if (values.isEmpty()) {
             return 0.0;
         }
@@ -28,16 +31,22 @@ public class StatisticsService {
     }
 
     public double findMedian(List<Integer> values) {
+        if (checkForEmptyList(values)) {
+            return 0.0;
+        }
         Collections.sort(values);
         int size = values.size();
         if (size % 2 == 0) {
-            return ((double) (values.get(size / 2) + values.get((size / 2) + 1))) / 2.0;
+            return ((double) (values.get(size / 2) + values.get((size / 2) - 1))) / 2.0;
         } else {
             return values.get(size / 2);
         }
     }
 
     public List<Integer> findMode(List<Integer> values) {
+        if (checkForEmptyList(values)) {
+            return new ArrayList<>();
+        }
         Map<Integer, Long> occurrencesMap = values
                 .stream()
                 .collect(Collectors.groupingBy(Integer::intValue,
@@ -54,6 +63,10 @@ public class StatisticsService {
         statistics.setMedian(findMedian(values));
         statistics.setMode(findMode(values));
         statisticsSetter.accept(statistics);
+    }
+
+    private boolean checkForEmptyList(List<Integer> values) {
+        return values == null || values.isEmpty();
     }
 
 }
